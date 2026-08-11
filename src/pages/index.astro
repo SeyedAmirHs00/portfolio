@@ -7,6 +7,14 @@ const base = import.meta.env.BASE_URL;
 
 <Layout title={site.name} description={site.description}>
   <section class="max-w-3xl">
+    <img
+      src={`${base}${site.photo}`}
+      alt={`Portrait of ${site.name}`}
+      width="160"
+      height="160"
+      class="mb-8 size-40 rounded-full object-cover ring-1 ring-zinc-800"
+    />
+
     <p class="text-sm font-medium tracking-wide text-zinc-400 uppercase">
       {site.title}
     </p>

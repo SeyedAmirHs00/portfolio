@@ -2,10 +2,20 @@
 import Layout from "../layouts/Layout.astro";
 import { bioParagraphs, bioQuote } from "../data/bio";
 import { site } from "../data/site";
+
+const base = import.meta.env.BASE_URL;
 ---
 
 <Layout title="About" description={`About ${site.name}`}>
   <article class="max-w-3xl">
+    <img
+      src={`${base}${site.photo}`}
+      alt={`Portrait of ${site.name}`}
+      width="128"
+      height="128"
+      class="mb-8 size-32 rounded-full object-cover ring-1 ring-zinc-800"
+    />
+
     <h1 class="text-4xl font-bold tracking-tight">About</h1>
     <p class="mt-2 text-zinc-400">Short biography</p>
 

@@ -8,6 +8,7 @@ export const site = {
     "I specialize in Reinforcement Learning and enjoy exploring the broader field of Artificial Intelligence—from machine learning and deep learning to intelligent systems that solve real-world problems.",
   description:
     "AI Researcher specializing in Reinforcement Learning. Portfolio of Seyed Amir Hosseini.",
+  photo: "images/profile.png",
   email: "seyedamirhosseini00@gmail.com",
   github: {
     handle: "SeyedAmirHs00",

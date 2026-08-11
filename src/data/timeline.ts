@@ -23,6 +23,11 @@ export const timeline: TimelineItem[] = [
     event: "Began Research in Reinforcement Learning",
   },
   {
+    year: "2025",
+    event:
+      "Internship at AISL (Autonomous & Intelligent Systems Lab) at Amirkabir University of Technology",
+  },
+  {
     year: "2026",
     event: "Ranked 13th Team at the Iran's ICPC",
   },
