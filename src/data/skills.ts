@@ -55,11 +55,11 @@ export const skillGroups: SkillGroup[] = [
   {
     title: "Core Competencies",
     skills: [
-      { name: "Algorithms", level: "Advanced" },
-      { name: "Problem Solving", level: "Advanced" },
-      { name: "Mathematics", level: "Advanced" },
+      { name: "Algorithms", level: "Intermediate" },
+      { name: "Problem Solving", level: "Intermediate" },
+      { name: "Mathematics", level: "Intermediate" },
       { name: "Reinforcement Learning", level: "Intermediate" },
-      { name: "Machine Learning", level: "Intermediate" },
+      { name: "Machine Learning", level: "Beginner" },
       { name: "Artificial Intelligence", level: "Intermediate" },
     ],
   },
