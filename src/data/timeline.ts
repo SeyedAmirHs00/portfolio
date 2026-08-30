@@ -29,7 +29,7 @@ export const timeline: TimelineItem[] = [
   },
   {
     year: "2026",
-    event: "Ranked 13th Team at the Iran's ICPC",
+    event: "Placed 13th at the ICPC Asia Tehran Regional Contest",
   },
   {
     year: "2026",
