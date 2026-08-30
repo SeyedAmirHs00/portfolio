@@ -18,7 +18,6 @@ export const site = {
   preferredContact: "Email",
   openTo: [
     "Research Collaborations",
-    "Open Source Contributions",
-    "Full-time Opportunities",
+    "Part-time Opportunities",
   ],
 } as const;
