@@ -2,10 +2,18 @@
 import Layout from "../layouts/Layout.astro";
 import { site } from "../data/site";
 import { education } from "../data/education";
-import { skillGroups } from "../data/skills";
+import { skillGroups, researchInterests } from "../data/skills";
 import { timeline } from "../data/timeline";
+import { publications } from "../data/publications";
+import { articles, courses } from "../data/study";
 
 const base = import.meta.env.BASE_URL;
+
+// Key preference-based RL papers studied in depth
+const pbPubs = ["PEBBLE", "RIME", "B-Pref"];
+const relatedPapers = articles.filter((a) =>
+  pbPubs.some((kw) => a.title.startsWith(kw))
+);
 ---
 
 <Layout title="Resume" description={`Resume — ${site.name}`}>
@@ -23,6 +31,7 @@ const base = import.meta.env.BASE_URL;
   </div>
 
   <article class="resume max-w-3xl">
+    <!-- Header -->
     <header class="border-b border-zinc-800 pb-6">
       <h1 class="text-4xl font-bold tracking-tight">{site.name}</h1>
       <p class="mt-2 text-lg text-zinc-300">{site.title}</p>
@@ -44,6 +53,7 @@ const base = import.meta.env.BASE_URL;
       </p>
     </header>
 
+    <!-- Summary -->
     <section class="mt-8">
       <h2 class="text-sm font-semibold tracking-wide text-zinc-500 uppercase">
         Summary
@@ -52,6 +62,24 @@ const base = import.meta.env.BASE_URL;
       <p class="mt-3 text-zinc-400 italic">"{site.motto}"</p>
     </section>
 
+    <!-- Research Interests -->
+    <section class="mt-10">
+      <h2 class="text-sm font-semibold tracking-wide text-zinc-500 uppercase">
+        Research Interests
+      </h2>
+      <div class="mt-3 grid gap-3 sm:grid-cols-2">
+        {researchInterests.map((interest) => (
+          <div class="rounded-lg border border-zinc-800 p-4">
+            <h3 class="text-sm font-semibold text-zinc-200">{interest.area}</h3>
+            <p class="mt-1.5 text-xs leading-relaxed text-zinc-400">
+              {interest.description}
+            </p>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <!-- Education -->
     <section class="mt-10">
       <h2 class="text-sm font-semibold tracking-wide text-zinc-500 uppercase">
         Education
@@ -63,61 +91,353 @@ const base = import.meta.env.BASE_URL;
         </div>
         <p class="text-zinc-300">{education.institution}</p>
         <p class="text-sm text-zinc-500">{education.location}</p>
-        <p class="mt-2 text-sm text-zinc-400">GPA: {education.gpa}</p>
+        <p class="mt-2 text-sm text-zinc-400">
+          GPA: {education.gpa}
+          <span class="ml-2 text-emerald-400">★ Top student</span>
+        </p>
         <ul class="mt-3 list-disc space-y-1 pl-5 text-sm text-zinc-300">
           {education.honors.map((item) => <li>{item}</li>)}
           {education.awards.map((item) => <li>{item}</li>)}
         </ul>
+        <details class="mt-3">
+          <summary class="cursor-pointer text-sm text-zinc-500 hover:text-zinc-300">
+            Relevant Coursework
+          </summary>
+          <div class="mt-2 flex flex-wrap gap-2">
+            {education.coursework.map((course) => (
+              <span class="rounded-md bg-zinc-800 px-2.5 py-1 text-xs text-zinc-300">
+                {course}
+              </span>
+            ))}
+          </div>
+        </details>
       </div>
     </section>
 
+    <!-- Research Experience -->
+    <section class="mt-10">
+      <h2 class="text-sm font-semibold tracking-wide text-zinc-500 uppercase">
+        Research Experience
+      </h2>
+      <div class="mt-3 space-y-6">
+        <div>
+          <div class="flex flex-wrap items-baseline justify-between gap-2">
+            <h3 class="font-semibold text-zinc-100">
+              Research Intern — Reinforcement Learning
+            </h3>
+            <p class="text-sm text-zinc-500">2025 – Present</p>
+          </div>
+          <p class="text-zinc-300">
+            Autonomous & Intelligent Systems Lab (AISL)
+          </p>
+          <p class="text-sm text-zinc-400">
+            Amirkabir University of Technology, Tehran
+          </p>
+          <ul class="mt-2 list-disc space-y-1 pl-5 text-sm text-zinc-300">
+            <li>
+              Conducted research on Preference-based Reinforcement Learning (PbRL) with
+              multi-expert feedback under supervision of Dr. Maryam Abdolali.
+            </li>
+            <li>
+              Developed a robust PbRL framework handling noisy and conflicting
+              expert preferences — resulted in a first-author arXiv preprint.
+            </li>
+          </ul>
+        </div>
+
+        <div>
+          <ul class="mt-2 list-disc space-y-1 pl-5 text-sm text-zinc-300">
+            <li>
+              Investigating zero-shot generalization in RL, unsupervised skill
+              discovery, and robust reward learning.
+            </li>
+            <li>
+              Deep study of state-of-the-art methods: successor representations,
+              world models (TD-MPC2, DINO-WM), preference-based RL (PEBBLE, RIME, B-Pref).
+            </li>
+            <li>
+              Reproduced and analyzed foundational papers in representation learning
+              for RL (Hilbert representations, functional reward encodings).
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Publication -->
+    <section class="mt-10">
+      <h2 class="text-sm font-semibold tracking-wide text-zinc-500 uppercase">
+        Publications
+      </h2>
+      <div class="mt-3 space-y-4">
+        {publications.map((pub) => (
+          <div class="rounded-lg border border-zinc-800 p-4">
+            <div class="flex flex-wrap items-start justify-between gap-2">
+              <div class="flex-1">
+                <h3 class="font-medium text-zinc-100">
+                  {pub.url ? (
+                    <a
+                      href={pub.url}
+                      class="hover:text-white"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {pub.title} ↗
+                    </a>
+                  ) : (
+                    pub.title
+                  )}
+                </h3>
+                <p class="mt-1 text-sm text-zinc-400">{pub.authors}</p>
+                <div class="mt-1 flex flex-wrap gap-2 text-xs">
+                  {pub.venue && (
+                    <span class="rounded bg-zinc-800 px-2 py-0.5 text-zinc-400">
+                      {pub.venue}
+                    </span>
+                  )}
+                  {pub.year && (
+                    <span class="rounded bg-zinc-800 px-2 py-0.5 text-zinc-400">
+                      {pub.year}
+                    </span>
+                  )}
+                  {pub.status && (
+                    <span class="rounded bg-zinc-800 px-2 py-0.5 text-zinc-400">
+                      {pub.status}
+                    </span>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <!-- Related Literature -->
+    {relatedPapers.length > 0 && (
+    <section class="mt-10">
+      <h2 class="text-sm font-semibold tracking-wide text-zinc-500 uppercase">
+        Related Research
+      </h2>
+      <p class="mt-2 text-xs text-zinc-500">
+        Key papers studied as part of ongoing research program.
+      </p>
+      <div class="mt-3 space-y-3">
+        {relatedPapers.slice(0, 8).map((paper) => (
+          <div class="flex items-start gap-3 text-sm">
+            <span class="mt-0.5 shrink-0 text-zinc-500">📄</span>
+            <div>
+              {paper.url ? (
+                <a
+                  href={paper.url}
+                  class="font-medium text-zinc-200 hover:text-white"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {paper.title} ↗
+                </a>
+              ) : (
+                <span class="font-medium text-zinc-200">{paper.title}</span>
+              )}
+              <span class="text-zinc-400">
+                {" · "}{paper.authors}
+              </span>
+              <div class="mt-0.5 flex flex-wrap gap-2 text-xs">
+                {paper.venue && (
+                  <span class="rounded bg-zinc-800 px-2 py-0.5 text-zinc-400">
+                    {paper.venue}
+                  </span>
+                )}
+                {paper.year && (
+                  <span class="rounded bg-zinc-800 px-2 py-0.5 text-zinc-500">
+                    {paper.year}
+                  </span>
+                )}
+                {paper.notes && (
+                  <span class="text-zinc-500 italic">{paper.notes}</span>
+                )}
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+    )}
+
+    <!-- Skills -->
     <section class="mt-10">
       <h2 class="text-sm font-semibold tracking-wide text-zinc-500 uppercase">
         Skills
       </h2>
-      <div class="mt-3 space-y-4">
-        {
-          skillGroups.map((group) => (
-            <div>
-              <h3 class="text-sm font-medium text-zinc-200">{group.title}</h3>
-              <p class="mt-1 text-sm text-zinc-400">
-                {group.skills
-                  .map((skill) => `${skill.name} (${skill.level})`)
-                  .join(" · ")}
-              </p>
+      <div class="mt-3 space-y-5">
+        {skillGroups.map((group) => (
+          <div>
+            <h3 class="text-sm font-medium text-zinc-200">{group.title}</h3>
+            <div class="mt-2 grid gap-x-8 gap-y-2 sm:grid-cols-2">
+              {group.skills.map((skill) => (
+                <div class="flex items-center gap-3">
+                  <span class="w-28 shrink-0 text-sm text-zinc-400">
+                    {skill.name}
+                  </span>
+                  <div class="flex-1">
+                    <div class="h-2 rounded-full bg-zinc-800">
+                      <div
+                        class="h-2 rounded-full transition-all"
+                        style={`width: ${skill.value ?? 50}%; background: ${skill.level === "Advanced" ? "#22d3ee" : skill.level === "Intermediate" ? "#a78bfa" : "#fbbf24"};`}
+                      ></div>
+                    </div>
+                  </div>
+                  <span class="w-20 shrink-0 text-right text-xs text-zinc-500">
+                    {skill.level}
+                    {skill.years ? ` · ${skill.years}y` : ""}
+                  </span>
+                </div>
+              ))}
             </div>
-          ))
-        }
+          </div>
+        ))}
       </div>
     </section>
 
+    <!-- Awards & Honors -->
+    <section class="mt-10">
+      <h2 class="text-sm font-semibold tracking-wide text-zinc-500 uppercase">
+        Awards & Honors
+      </h2>
+      <ul class="mt-3 space-y-3">
+        <li class="flex gap-3 text-sm">
+          <span class="mt-0.5 shrink-0 text-zinc-500">🏆</span>
+          <div>
+            <span class="text-zinc-200">Top Student</span>
+            <span class="text-zinc-400">
+              — Computer Science program, KNTU (GPA: 18.70/20)
+            </span>
+          </div>
+        </li>
+        <li class="flex gap-3 text-sm">
+          <span class="mt-0.5 shrink-0 text-zinc-500">🥉</span>
+          <div>
+            <span class="text-zinc-200">Bronze Medalist</span>
+            <span class="text-zinc-400">
+              — 45th Iranian Mathematics Competition (IMC) for Universities
+            </span>
+          </div>
+        </li>
+        <li class="flex gap-3 text-sm">
+          <span class="mt-0.5 shrink-0 text-zinc-500">🏅</span>
+          <div>
+            <span class="text-zinc-200">13th Place</span>
+            <span class="text-zinc-400">
+              — ICPC Asia Tehran Regional Contest (2026)
+            </span>
+          </div>
+        </li>
+        <li class="flex gap-3 text-sm">
+          <span class="mt-0.5 shrink-0 text-zinc-500">⭐</span>
+          <div>
+            <span class="text-zinc-200">IOI Finalist</span>
+            <span class="text-zinc-400">
+              — Qualified for final round of Iranian Olympiad in Informatics (2020)
+            </span>
+          </div>
+        </li>
+      </ul>
+    </section>
+
+    <!-- Certifications -->
+    <section class="mt-10">
+      <h2 class="text-sm font-semibold tracking-wide text-zinc-500 uppercase">
+        Certifications & Courses
+      </h2>
+      <div class="mt-3 space-y-3">
+        {courses.map((course) => (
+          <div class="flex items-start gap-3 text-sm">
+            <span class="mt-0.5 shrink-0 text-zinc-500">📜</span>
+            <div>
+              {course.url ? (
+                <a
+                  href={course.url}
+                  class="font-medium text-zinc-200 hover:text-white"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {course.title} ↗
+                </a>
+              ) : (
+                <span class="font-medium text-zinc-200">{course.title}</span>
+              )}
+              <span class="text-zinc-400">
+                {" · "}{course.provider}
+                {course.instructor ? ` · ${course.instructor}` : ""}
+                {course.year ? ` · ${course.year}` : ""}
+              </span>
+              {course.notes && (
+                <p class="mt-1 text-zinc-500">{course.notes}</p>
+              )}
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <!-- Timeline -->
     <section class="mt-10">
       <h2 class="text-sm font-semibold tracking-wide text-zinc-500 uppercase">
         Timeline
       </h2>
-      <ul class="mt-3 space-y-2">
-        {
-          timeline.map((item) => (
-            <li class="grid grid-cols-[3.5rem_1fr] gap-3 text-sm">
-              <span class="font-medium text-zinc-500">{item.year}</span>
-              <span class="text-zinc-300">{item.event}</span>
-            </li>
-          ))
-        }
-      </ul>
+      <div class="mt-3">
+        <div class="relative pl-6 before:absolute before:left-2 before:top-1 before:h-[calc(100%-0.5rem)] before:w-px before:bg-zinc-800">
+          {timeline.map((item) => (
+            <div class="relative pb-5 last:pb-0">
+              <div class="absolute -left-4 top-1.5 h-2.5 w-2.5 rounded-full border-2 border-zinc-600 bg-zinc-950"></div>
+              <div class="grid grid-cols-[3.5rem_1fr] gap-3 text-sm">
+                <span class="font-medium text-zinc-500">{item.year}</span>
+                <span class="text-zinc-300">{item.event}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
     </section>
 
+    <!-- Open to -->
     <section class="mt-10">
       <h2 class="text-sm font-semibold tracking-wide text-zinc-500 uppercase">
         Open to
       </h2>
-      <p class="mt-3 text-sm text-zinc-300">{site.openTo.join(" · ")}</p>
+      <div class="mt-3 flex flex-wrap gap-2">
+        {site.openTo.map((item) => (
+          <span class="rounded-full border border-zinc-700 px-3 py-1 text-sm text-zinc-300">
+            {item}
+          </span>
+        ))}
+      </div>
     </section>
+
+    <!-- Closing note -->
+    <div class="mt-12 border-t border-zinc-800 pt-6 text-center">
+      <p class="text-sm leading-relaxed text-zinc-400 italic">
+        &quot;I&rsquo;m just at the middle of exploring AI, and I will be open to other aspects such as&nbsp;
+        <span class="text-zinc-200">Natural Language Processing (NLP)</span>,&nbsp;
+        <span class="text-zinc-200">Generative Models</span>&nbsp;(such as trending Diffusion models),
+        and other AI-related topics.&quot;
+      </p>
+    </div>
   </article>
 </Layout>
 
-<script>
+<script is:inline>
   document.getElementById("print-resume")?.addEventListener("click", () => {
+    const btn = document.getElementById("print-resume");
+    const originalText = btn.textContent;
+    btn.textContent = "Opening PDF…";
+    btn.disabled = true;
+    // Use browser's native print (already well-styled via @media print)
     window.print();
+    // Re-enable after print dialog closes (or after a timeout)
+    setTimeout(() => {
+      btn.textContent = originalText;
+      btn.disabled = false;
+    }, 1000);
   });
 </script>

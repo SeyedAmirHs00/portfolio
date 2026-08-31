@@ -160,6 +160,30 @@ export const articles: Article[] = [
     url: "https://proceedings.neurips.cc/paper_files/paper/2018/hash/e6d8545daa42d5ced125a4bf747b3688-Abstract.html",
     notes: "This paper introduces a method which extract a decision tree from a policy network, then use verification algorithms for this decision tree",
   },
+  {
+    title: "PEBBLE: Feedback-Efficient Interactive Reinforcement Learning via Relabeling Experience and Unsupervised Pre-training",
+    authors: "Kimin Lee, Laura Smith, Pieter Abbeel",
+    year: "2021",
+    venue: "ICML — Oral",
+    url: "https://arxiv.org/abs/2106.05091",
+    notes: "Preference-based RL method improving feedback efficiency through off-policy learning, experience relabeling, active preference queries, and unsupervised pre-training.",
+  },
+  {
+    title: "RIME: Robust Preference-based Reinforcement Learning with Noisy Preferences",
+    authors: "Jie Cheng, Gang Xiong, Xingyuan Dai, Qinghai Miao, Yisheng Lv, Fei-Yue Wang",
+    year: "2024",
+    venue: "ICML — Spotlight",
+    url: "https://arxiv.org/abs/2402.17257",
+    notes: "Robust PbRL method that filters noisy preference feedback using dynamic sample selection and reward-model warm starting.",
+  },
+  {
+    title: "B-Pref: Benchmarking Preference-Based Reinforcement Learning",
+    authors: "Kimin Lee, Laura Smith, Anca Dragan, Pieter Abbeel",
+    year: "2021",
+    venue: "NeurIPS — Datasets and Benchmarks",
+    url: "https://arxiv.org/abs/2111.03026",
+    notes: "Benchmark for PbRL evaluating algorithms under simulated teacher irrationalities and varying preference quality.",
+  },
 ];
 
 export const books: Book[] = [];

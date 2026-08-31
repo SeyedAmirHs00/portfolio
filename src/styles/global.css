@@ -14,7 +14,8 @@ a {
 
 @media print {
   body {
-    @apply bg-white text-zinc-900;
+    @apply bg-zinc-950 text-zinc-100 antialiased;
+    font-family: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
   }
 
   header,
@@ -27,18 +28,42 @@ a {
     @apply max-w-none px-0 py-0;
   }
 
-  .resume,
-  .resume a {
-    color: #18181b !important;
+  article.resume {
+    max-width: 100% !important;
   }
 
-  .resume .text-zinc-300,
-  .resume .text-zinc-400,
-  .resume .text-zinc-500 {
-    color: #3f3f46 !important;
+  /* Preserve dark theme — no color overrides */
+  .resume .text-emerald-400 {
+    color: #34d399 !important;
   }
 
-  .resume .border-zinc-800 {
-    border-color: #d4d4d8 !important;
+  /* Dark theme skill bars — keep colors */
+  .resume [style*="background: #22d3ee"] {
+    background: #22d3ee !important;
+  }
+  .resume [style*="background: #a78bfa"] {
+    background: #a78bfa !important;
+  }
+  .resume [style*="background: #fbbf24"] {
+    background: #fbbf24 !important;
+  }
+
+  /* Show coursework details automatically */
+  .resume details {
+    display: block !important;
+  }
+  .resume details summary {
+    list-style: none;
+    cursor: default;
+  }
+  .resume details summary::-webkit-details-marker {
+    display: none;
+  }
+
+  /* Prevent page breaks mid-section */
+  .resume section {
+    page-break-inside: avoid;
+    break-inside: avoid;
+    page-break-after: auto;
   }
 }
