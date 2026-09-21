@@ -188,4 +188,19 @@ export const articles: Article[] = [
 
 export const books: Book[] = [];
 
-export const courses: Course[] = [];
+export const courses: Course[] = [
+  {
+    title: "Stanford CS229 Machine Learning | Spring 2026",
+    provider: "Stanford University",
+    year: "2026",
+    status: "Watched",
+    url: "https://www.youtube.com/playlist?list=PLaqpC4kq8Gpw",
+  },
+  {
+    title: "Stanford CS224R Deep Reinforcement Learning | Spring 2025",
+    provider: "Stanford University",
+    year: "2025",
+    status: "Watched",
+    url: "https://www.youtube.com/playlist?list=PLoROMvodv4rPwxE0ONYRa_itZFdaKCylL",
+  },
+];
