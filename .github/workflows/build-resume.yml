@@ -2,7 +2,7 @@ name: Build LaTeX Resume
 on:
   push:
     branches:
-      - main
+      - master
     paths:
       - 'latex-resume/**'
       - '.github/workflows/build-resume.yml'
@@ -30,7 +30,7 @@ jobs:
 
       - name: Create Release
         uses: softprops/action-gh-release@v1
-        if: github.ref == 'refs/heads/main'
+        if: github.ref == 'refs/heads/master'
         with:
           files: latex-resume/resume.pdf
           tag_name: latest-resume
