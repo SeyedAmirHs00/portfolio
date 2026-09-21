@@ -1,0 +1,38 @@
+name: Build LaTeX Resume
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'latex-resume/**'
+      - '.github/workflows/build-resume.yml'
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Compile LaTeX
+        uses: xu-cheng/latex-action@v2
+        with:
+          root_file: resume.tex
+          working_directory: latex-resume
+          compiler: xelatex
+
+      - name: Upload PDF artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: resume-pdf
+          path: latex-resume/resume.pdf
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        if: github.ref == 'refs/heads/main'
+        with:
+          files: latex-resume/resume.pdf
+          tag_name: latest-resume
+          name: Latest Resume
+          body: "Automatically compiled LaTeX resume."
