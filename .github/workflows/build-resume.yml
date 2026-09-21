@@ -14,16 +14,21 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
+    container: texlive/texlive:latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Compile LaTeX
-        uses: xu-cheng/latex-action@v3
-        with:
-          root_file: resume.tex
-          working_directory: latex-resume
-          latexmk_use_xelatex: true
+      - name: Install fonts
+        run: |
+          apt-get update
+          apt-get install --yes fonts-roboto fonts-adobe-sourcesans3
+
+      - name: Compile Resume
+        run: |
+          cd latex-resume
+          lualatex resume.tex
+          lualatex resume.tex
 
       - name: Upload PDF artifact
         uses: actions/upload-artifact@v4
@@ -31,11 +36,21 @@ jobs:
           name: resume-pdf
           path: latex-resume/resume.pdf
 
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/master'
+    steps:
+      - name: Download PDF artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: resume-pdf
+          path: .
+
       - name: Create Release
         uses: softprops/action-gh-release@v2
-        if: github.ref == 'refs/heads/master'
         with:
-          files: latex-resume/resume.pdf
+          files: resume.pdf
           tag_name: latest-resume
           name: Latest Resume
           body: "Automatically compiled LaTeX resume."
